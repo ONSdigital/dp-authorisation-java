@@ -88,24 +88,22 @@ public class PermissionChecker {
     }
 
     Boolean conditionIsMet(Condition condition, Map<String, String> attributes) {
-        for (String attribute : condition.attributes) {
-            if (!attributes.containsKey(attribute)) {
-                continue;
-            }
-            String value = attributes.get(attribute);
-            for (String conditionValue : condition.values) {
-                if (condition.operator.equals(Constants.OperatorStringEquals) && value.equals(conditionValue)) {
-                    return true;
-                }
-                if (condition.operator.equals(Constants.OperatorStartsWith) && value.startsWith(conditionValue)) {
-                    return true;
-                }
-            }
-
+        if (!attributes.containsKey(condition.attribute)) {
+            return false;
         }
+
+        String value = attributes.get(condition.attribute);
+        for (String conditionValue : condition.values) {
+            if (condition.operator.equals(Constants.OperatorStringEquals) && value.equals(conditionValue)) {
+                return true;
+            }
+            if (condition.operator.equals(Constants.OperatorStartsWith) && value.startsWith(conditionValue)) {
+                return true;
+            }
+        }
+
         return false;
     }
-
     List<String> mapEntityDataToEntities(UserDataPayload userData) {
         List<String> entities = new ArrayList<String>();
         if (userData.getEmail().length() > 0) {
