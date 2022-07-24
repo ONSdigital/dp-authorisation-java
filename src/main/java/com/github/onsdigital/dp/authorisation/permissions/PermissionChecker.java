@@ -1,7 +1,7 @@
 package com.github.onsdigital.dp.authorisation.permissions;
 
 import com.github.onsdigital.dp.authorisation.permissions.models.*;
-import com.github.onsdigital.impl.UserDataPayload;
+import com.github.onsdigital.UserDataPayload;
 import org.joda.time.Duration;
 
 

@@ -1,11 +1,11 @@
 package com.github.onsdigital.dp.authorisation.permissions;
 
 
+import com.github.onsdigital.UserDataPayload;
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import com.github.onsdigital.dp.authorisation.permissions.models.Condition;
 import com.github.onsdigital.dp.authorisation.permissions.models.EntityIDToPolicies;
 import com.github.onsdigital.dp.authorisation.permissions.models.Policy;
-import com.github.onsdigital.impl.UserDataPayload;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -63,7 +63,7 @@ public class CheckerTest {
     @Test
     public void testHasPermission() throws Exception {
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"admin"}), "users.add", null
+                new UserDataPayload("userId", "userEmail", Arrays.asList("admin")), "users.add", null
         );
 
         assertThat(hasPermission, equalTo(true));
@@ -73,7 +73,7 @@ public class CheckerTest {
     public void testHasPermission_false() throws Exception {
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"publisher"}), "users.add", null
+                new UserDataPayload("userId", "userEmail", Arrays.asList("publisher")), "users.add", null
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -84,7 +84,7 @@ public class CheckerTest {
     public void testHasPermission_noGroupMatch() throws Exception {
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"default"}), "legacy.read", null
+                new UserDataPayload("userId","userEmail", Arrays.asList("default")), "legacy.read", null
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -98,7 +98,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"viewer"}), "legacy.read", attributes
+                new UserDataPayload("userId","userEmail", Arrays.asList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(true));
@@ -112,7 +112,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"viewer"}), "legacy.read", attributes
+                new UserDataPayload("userId","userEmail", Arrays.asList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -127,7 +127,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"viewer"}), "legacy.read", attributes
+                new UserDataPayload("userId","userEmail", Arrays.asList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -141,7 +141,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"publisher"}), "some_service.write", attributes
+                new UserDataPayload("userId","userEmail", Arrays.asList("publisher")), "some_service.write", attributes
         );
 
         assertThat(hasPermission, equalTo(true));
@@ -156,7 +156,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"publisher"}), "some_service.write", attributes
+                new UserDataPayload("userId","userEmail", Arrays.asList("publisher")), "some_service.write", attributes
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -170,7 +170,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", new String[]{"viewer"}), "legacy.read", attributes
+                new UserDataPayload("userId", "userEmail", Arrays.asList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(true));

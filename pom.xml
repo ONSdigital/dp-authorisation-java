@@ -96,7 +96,11 @@
             <artifactId>dp-logging</artifactId>
             <version>${dp.logging.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.onsdigital</groupId>
+            <artifactId>dp-jwt-verifier-java</artifactId>
+            <version>0.5.0</version>
+        </dependency>
     </dependencies>
 
     <build>
