@@ -65,21 +65,7 @@ public class PermissionChecker {
             return false;
         }
         for (Policy policy : policies) {
-            if (aConditionIsMet(policy.conditions, attributes)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    Boolean aConditionIsMet(List<Condition> conditions, Map<String, String> attributes) {
-        if (conditions == null || conditions.size() == 0) {
-            return true;
-        }
-
-        for (Condition condition : conditions) {
-            if (conditionIsMet(condition, attributes)) {
+            if (conditionIsMet(policy.condition, attributes)) {
                 return true;
             }
         }
@@ -88,6 +74,9 @@ public class PermissionChecker {
     }
 
     Boolean conditionIsMet(Condition condition, Map<String, String> attributes) {
+        if (condition == null){
+            return true;
+        }
         if (!attributes.containsKey(condition.attribute)) {
             return false;
         }
