@@ -17,7 +17,4 @@ public class Condition {
         }};
     }
 
-    public Condition() {
-
-    }
 }

@@ -34,7 +34,7 @@ public class CheckerTest {
         MockitoAnnotations.initMocks(this);
         permissionsBundle = new Bundle("users.add", new EntityIDToPolicies("groups/admin", new Policy("policy1")));
 
-        EntityIDToPolicies legacyRead = new EntityIDToPolicies("groups/admin", new Policy("policy3", new Condition()));
+        EntityIDToPolicies legacyRead = new EntityIDToPolicies("groups/admin", new Policy("policy3", null));
         legacyRead.put("groups/viewer", new ArrayList<Policy>(Arrays.asList(
                 new Policy("policy2",  new Condition("collection_id", Constants.OperatorStringEquals, "collection768"))
         )));
