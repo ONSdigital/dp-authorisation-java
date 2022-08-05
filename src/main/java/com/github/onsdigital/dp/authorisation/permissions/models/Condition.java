@@ -16,4 +16,5 @@ public class Condition {
             add(value);
         }};
     }
+
 }

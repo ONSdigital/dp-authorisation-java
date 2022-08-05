@@ -34,21 +34,14 @@ public class CheckerTest {
         MockitoAnnotations.initMocks(this);
         permissionsBundle = new Bundle("users.add", new EntityIDToPolicies("groups/admin", new Policy("policy1")));
 
-        EntityIDToPolicies legacyRead = new EntityIDToPolicies("groups/admin", new Policy("policy3", new Condition[]{}));
+        EntityIDToPolicies legacyRead = new EntityIDToPolicies("groups/admin", new Policy("policy3", null));
         legacyRead.put("groups/viewer", new ArrayList<Policy>(Arrays.asList(
-                new Policy("policy2", new Condition[]{
-                        new Condition("collection_id", Constants.OperatorStringEquals, "collection765"),
-                        new Condition("collection_id", Constants.OperatorStringEquals, "collection767"),
-                        new Condition("collection_id", "stringequals", "collection768"),
-
-                })
+                new Policy("policy2",  new Condition("collection_id", Constants.OperatorStringEquals, "collection768"))
         )));
         permissionsBundle.put("legacy.read", legacyRead);
 
         permissionsBundle.put("some_service.write", new EntityIDToPolicies("groups/publisher", new Policy("policy7",
-                new Condition[]{
-                        new Condition("path", Constants.OperatorStartsWith, "/files/dir/a/"),
-                        new Condition("path", Constants.OperatorStartsWith, "/files/dir/b")}
+                new Condition("path", Constants.OperatorStartsWith, "/files/dir/b")
         )));
 
         when(cachingStore.getPermissionsBundle()).
@@ -94,7 +87,7 @@ public class CheckerTest {
     @Test
     public void testHasPermission_withStringEqualsConditionTrue() throws Exception {
         HashMap<String, String> attributes = new HashMap<String, String>() {{
-            put("collection_id", "collection765");
+            put("collection_id", "collection768");
         }};
 
         Boolean hasPermission = checker.hasPermission(
@@ -123,7 +116,7 @@ public class CheckerTest {
     public void testHasPermission_withCaseInsensitivePolicyConditionOperatorFalse() throws Exception {
 
         HashMap<String, String> attributes = new HashMap<String, String>() {{
-            put("collection_id", "collection768");
+            put("collection_id", "collection767");
         }};
 
         Boolean hasPermission = checker.hasPermission(
@@ -137,7 +130,7 @@ public class CheckerTest {
     @Test
     public void testHasPermission_withStartsWithConditionTrue() throws Exception {
         HashMap<String, String> attributes = new HashMap<String, String>() {{
-            put("path", "/files/dir/a/some/dir/");
+            put("path", "/files/dir/b");
         }};
 
         Boolean hasPermission = checker.hasPermission(
@@ -166,7 +159,7 @@ public class CheckerTest {
     public void testHasPermission_multipleConditionsChecked() throws Exception {
 
         HashMap<String, String> attributes = new HashMap<String, String>() {{
-            put("collection_id", "collection767");
+            put("collection_id", "collection768");
         }};
 
         Boolean hasPermission = checker.hasPermission(

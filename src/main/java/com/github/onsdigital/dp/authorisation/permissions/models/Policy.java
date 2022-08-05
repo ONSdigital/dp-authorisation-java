@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Policy {
     String ID;
-    public List<Condition> conditions;
+    public Condition condition;
 
     public Policy(String id) {
         ID = id;
@@ -14,14 +14,6 @@ public class Policy {
 
     public Policy(String id, Condition condition) {
         ID = id;
-        conditions = new ArrayList<Condition>() {{
-                add(condition);
-            }};
-    }
-
-    public Policy(String id, Condition[] conditions) {
-        ID = id;
-        this.conditions = new ArrayList<Condition>(Arrays.asList(conditions));
-
+        this.condition = condition;
     }
 }
