@@ -1,0 +1,15 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: onsdigital/dp-concourse-tools-java
+
+inputs:
+  - name: dp-authorisation-java
+    path: dp-authorisation-java
+
+run:
+  path: dp-authorisation-java/ci/scripts/build.sh
