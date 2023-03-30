@@ -29,6 +29,7 @@
 
     <properties>
         <dp.logging.version>v2.0.0-beta.4</dp.logging.version>
+        <maven.spotbugs.security.plugin.version>1.11.0</maven.spotbugs.security.plugin.version>
     </properties>
 
     <dependencies>
@@ -96,11 +97,7 @@
             <artifactId>dp-logging</artifactId>
             <version>${dp.logging.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.onsdigital</groupId>
-            <artifactId>dp-jwt-verifier-java</artifactId>
-            <version>0.5.0</version>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -143,6 +140,25 @@
                     </excludeCoordinates>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>1.11.0</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>medium</threshold>
+                    <failOnError>true</failOnError>
+                    <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.h3xstream.findsecbugs</groupId>
+                            <artifactId>findsecbugs-plugin</artifactId>
+                            <version>${maven.spotbugs.security.plugin.version}</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
