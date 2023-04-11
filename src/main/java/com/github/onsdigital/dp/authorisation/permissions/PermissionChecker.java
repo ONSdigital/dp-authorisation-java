@@ -1,9 +1,11 @@
 package com.github.onsdigital.dp.authorisation.permissions;
 
-import com.github.onsdigital.dp.authorisation.permissions.models.*;
 import com.github.onsdigital.UserDataPayload;
+import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
+import com.github.onsdigital.dp.authorisation.permissions.models.Condition;
+import com.github.onsdigital.dp.authorisation.permissions.models.EntityIDToPolicies;
+import com.github.onsdigital.dp.authorisation.permissions.models.Policy;
 import org.joda.time.Duration;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +13,20 @@ import java.util.Map;
 
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.warn;
 
+/**
+ * PermissionChecker.
+ */
 public class PermissionChecker {
     Cache cache;
 
+    /**
+     * PermissionChecker.
+     *
+     * @param permissionsAPIHost
+     * @param cacheUpdateInterval
+     * @param expiryCheckInterval
+     * @param maxCacheTime
+     */
     public PermissionChecker(String permissionsAPIHost, Duration cacheUpdateInterval, Duration expiryCheckInterval, Duration maxCacheTime) {
         CachingStore cachingStore = new CachingStore(new APIClient(permissionsAPIHost));
         cachingStore.startCacheUpdater(cacheUpdateInterval);
@@ -29,10 +42,15 @@ public class PermissionChecker {
         cache.close();
     }
 
-    // hasPermission returns true if one of the given entities has the given permission.
-    // userData - ID of the caller (user or service), as well as any associated groups
-    // permission - the action or permission the user wants to take, e.g. `datasets:edit`
-    // attributes - other key value attributes for use in access control decision, e.g. `collectionID`, `datasetID`, `isPublished`, `roleId`, etc
+    /**
+     * hasPermission returns true if one of the given entities has the given permission.
+     *
+     * @param userData   - ID of the caller (user or service), as well as any associated groups
+     * @param permission - the action or permission the user wants to take, e.g. `datasets:edit`
+     * @param attributes - other key value attributes for use in access control decision, e.g. `collectionID`, `datasetID`, `isPublished`, `roleId`, etc
+     * @return
+     * @throws Exception
+     */
     public Boolean hasPermission(UserDataPayload userData, String permission, Map<String, String> attributes) throws Exception {
         List<String> entities = mapEntityDataToEntities(userData);
         return hasPermission(entities, permission, attributes);
@@ -74,7 +92,7 @@ public class PermissionChecker {
     }
 
     Boolean conditionIsMet(Condition condition, Map<String, String> attributes) {
-        if (condition == null){
+        if (condition == null) {
             return true;
         }
         if (!attributes.containsKey(condition.attribute)) {
@@ -83,16 +101,17 @@ public class PermissionChecker {
 
         String value = attributes.get(condition.attribute);
         for (String conditionValue : condition.values) {
-            if (condition.operator.equals(Constants.OperatorStringEquals) && value.equals(conditionValue)) {
+            if (condition.operator.equals(Constants.OPERATOR_STRING_EQUALS) && value.equals(conditionValue)) {
                 return true;
             }
-            if (condition.operator.equals(Constants.OperatorStartsWith) && value.startsWith(conditionValue)) {
+            if (condition.operator.equals(Constants.OPERATOR_STARTS_WITH) && value.startsWith(conditionValue)) {
                 return true;
             }
         }
 
         return false;
     }
+
     List<String> mapEntityDataToEntities(UserDataPayload userData) {
         List<String> entities = new ArrayList<String>();
         if (userData.getEmail().length() > 0) {

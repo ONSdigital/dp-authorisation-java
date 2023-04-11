@@ -3,6 +3,9 @@ package com.github.onsdigital.dp.authorisation.permissions.models;
 
 import java.util.HashMap;
 
+/**
+ * Bundle.
+ */
 public class Bundle extends HashMap<String, EntityIDToPolicies> {
     public Bundle() {
         super();

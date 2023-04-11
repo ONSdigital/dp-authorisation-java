@@ -18,10 +18,15 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 
 
+/**
+ * APIClient.
+ */
 public class APIClient implements Store {
-    private String bundlerEndpoint = "/v1/permissions-bundle";
+    public static final int STATUS_CODE_SUCCESS = 200;
+    private final String statusCodeTitle = "resp.StatusCode";
+    private final String bundlerEndpoint = "/v1/permissions-bundle";
+    private final Supplier<CloseableHttpClient> httpClientSupplier;
     String host;
-    private Supplier<CloseableHttpClient> httpClientSupplier;
 
     public APIClient(String host) {
         this.httpClientSupplier = () -> HttpClients.createDefault();
@@ -34,7 +39,12 @@ public class APIClient implements Store {
     }
 
 
-    // getPermissionsBundle gets the permissions bundle data from the permissions API.
+    /**
+     * getPermissionsBundle gets the permissions bundle data from the permissions API.
+     *
+     * @return getResponseEntity
+     * @throws Exception
+     */
     public Bundle getPermissionsBundle() throws Exception {
         String uri = host + bundlerEndpoint;
         info().data("uri", uri).log("getPermissionsBundle: starting permissions bundle request");
@@ -44,12 +54,12 @@ public class APIClient implements Store {
              CloseableHttpResponse response = httpClient.execute(request)) {
 
             int statusCode = response.getStatusLine().getStatusCode();
-            info().data("resp.StatusCode", statusCode).log("GetPermissionsBundle: request successfully executed");
+            info().data(statusCodeTitle, statusCode).log("GetPermissionsBundle: request successfully executed");
 
-            if (statusCode != 200) {
+            if (statusCode != STATUS_CODE_SUCCESS) {
 
-                error().data("resp.StatusCode", statusCode).log(Messages.PermissionAPIFailed);
-                throw new Exception(String.format("%s: %d", Messages.PermissionAPIFailed, statusCode));
+                error().data(statusCodeTitle, statusCode).log(Messages.PERMISSIONS_API_FAILED);
+                throw new Exception(String.format("%s: %d", Messages.PERMISSIONS_API_FAILED, statusCode));
 
             }
             info().log("GetPermissionsBundle: returning requested permissions to caller");

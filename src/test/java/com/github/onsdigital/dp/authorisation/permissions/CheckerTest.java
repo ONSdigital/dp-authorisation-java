@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,13 +36,13 @@ public class CheckerTest {
         permissionsBundle = new Bundle("users.add", new EntityIDToPolicies("groups/admin", new Policy("policy1")));
 
         EntityIDToPolicies legacyRead = new EntityIDToPolicies("groups/admin", new Policy("policy3", null));
-        legacyRead.put("groups/viewer", new ArrayList<Policy>(Arrays.asList(
-                new Policy("policy2",  new Condition("collection_id", Constants.OperatorStringEquals, "collection768"))
+        legacyRead.put("groups/viewer", new ArrayList<Policy>(Collections.singletonList(
+                new Policy("policy2", new Condition("collection_id", Constants.OPERATOR_STRING_EQUALS, "collection768"))
         )));
         permissionsBundle.put("legacy.read", legacyRead);
 
         permissionsBundle.put("some_service.write", new EntityIDToPolicies("groups/publisher", new Policy("policy7",
-                new Condition("path", Constants.OperatorStartsWith, "/files/dir/b")
+                new Condition("path", Constants.OPERATOR_STARTS_WITH, "/files/dir/b")
         )));
 
         when(cachingStore.getPermissionsBundle()).
@@ -56,7 +57,7 @@ public class CheckerTest {
     @Test
     public void testHasPermission() throws Exception {
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", "userEmail", Arrays.asList("admin")), "users.add", null
+                new UserDataPayload("userId", "userEmail", Collections.singletonList("admin")), "users.add", null
         );
 
         assertThat(hasPermission, equalTo(true));
@@ -66,7 +67,7 @@ public class CheckerTest {
     public void testHasPermission_false() throws Exception {
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", "userEmail", Arrays.asList("publisher")), "users.add", null
+                new UserDataPayload("userId", "userEmail", Collections.singletonList("publisher")), "users.add", null
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -77,7 +78,7 @@ public class CheckerTest {
     public void testHasPermission_noGroupMatch() throws Exception {
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId","userEmail", Arrays.asList("default")), "legacy.read", null
+                new UserDataPayload("userId","userEmail", Collections.singletonList("default")), "legacy.read", null
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -91,7 +92,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId","userEmail", Arrays.asList("viewer")), "legacy.read", attributes
+                new UserDataPayload("userId","userEmail", Collections.singletonList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(true));
@@ -105,7 +106,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId","userEmail", Arrays.asList("viewer")), "legacy.read", attributes
+                new UserDataPayload("userId","userEmail", Collections.singletonList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -120,7 +121,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId","userEmail", Arrays.asList("viewer")), "legacy.read", attributes
+                new UserDataPayload("userId","userEmail", Collections.singletonList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -134,7 +135,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId","userEmail", Arrays.asList("publisher")), "some_service.write", attributes
+                new UserDataPayload("userId","userEmail", Collections.singletonList("publisher")), "some_service.write", attributes
         );
 
         assertThat(hasPermission, equalTo(true));
@@ -149,7 +150,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId","userEmail", Arrays.asList("publisher")), "some_service.write", attributes
+                new UserDataPayload("userId","userEmail", Collections.singletonList("publisher")), "some_service.write", attributes
         );
 
         assertThat(hasPermission, equalTo(false));
@@ -163,7 +164,7 @@ public class CheckerTest {
         }};
 
         Boolean hasPermission = checker.hasPermission(
-                new UserDataPayload("userId", "userEmail", Arrays.asList("viewer")), "legacy.read", attributes
+                new UserDataPayload("userId", "userEmail", Collections.singletonList("viewer")), "legacy.read", attributes
         );
 
         assertThat(hasPermission, equalTo(true));

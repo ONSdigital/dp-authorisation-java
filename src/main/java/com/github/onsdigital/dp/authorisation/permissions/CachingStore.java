@@ -5,18 +5,23 @@ import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.github.onsdigital.logging.v2.event.SimpleEvent.*;
-
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
+/**
+ * CachingStore.
+ */
 public class CachingStore implements Cache {
     private Store underlyingStore;
-    private ReentrantLock mutex;
+    private final ReentrantLock mutex;
     private Bundle cachedBundle;
     private Boolean lastUpdateSuccessful;
     private DateTime lastUpdated;
-    private ScheduledExecutorService scheduledExecutorService;
+    private final ScheduledExecutorService scheduledExecutorService;
 
     CachingStore() {
         scheduledExecutorService = Executors.newScheduledThreadPool(2);
@@ -28,7 +33,11 @@ public class CachingStore implements Cache {
         this.underlyingStore = underlyingStore;
     }
 
-    // getPermissionsBundle returns the cached permission data, or an error if it's not cached.
+    /**
+     * getPermissionsBundle returns the cached permission data, or an error if it's not cached.
+     * @return cachedBundle
+     * @throws BundleNotCached
+     */
     public Bundle getPermissionsBundle() throws BundleNotCached {
         mutex.lock();
         try {
@@ -41,9 +50,11 @@ public class CachingStore implements Cache {
         }
     }
 
-    // startExpiryChecker starts a goroutine to continually check for expired cache data.
-    //  - checkInterval - how often to check for expired cache data.
-    //  - maxCacheTime - how long to cache permissions data before it's expired.
+    /**
+     * startExpiryChecker starts a goroutine to continually check for expired cache data.
+     * @param checkInterval - how often to check for expired cache data.
+     * @param maxCacheTime - how long to cache permissions data before it's expired.
+     */
     public void startExpiryChecker(Duration checkInterval, Duration maxCacheTime) {
         scheduledExecutorService.schedule(
                 () -> checkCacheExpiry(maxCacheTime),
@@ -51,7 +62,10 @@ public class CachingStore implements Cache {
         );
     }
 
-    // checkCacheExpiry clears the cache data it it's gone beyond it's expiry time.
+    /**
+     * checkCacheExpiry clears the cache data it it's gone beyond it's expiry time.
+     * @param maxCacheTime
+     */
     void checkCacheExpiry(Duration maxCacheTime) {
         mutex.lock();
         try {
@@ -65,8 +79,10 @@ public class CachingStore implements Cache {
         }
     }
 
-    // startCacheUpdater starts a go routine to continually update cache data at time intervals.
-    //  - updateInterval - how often to update the cache data.
+    /**
+     * startCacheUpdater starts a go routine to continually update cache data at time intervals.
+     * @param updateInterval  - how often to update the cache data.
+     */
     public void startCacheUpdater(Duration updateInterval) {
         update();
         scheduledExecutorService.schedule(
@@ -76,7 +92,10 @@ public class CachingStore implements Cache {
     }
 
 
-    // Update the permissions cache data, by calling the underlying permissions store
+    /**
+     * Update the permissions cache data, by calling the underlying permissions store.
+     * @return cachedBundle.
+     */
     public Bundle update() {
         mutex.lock();
         try {

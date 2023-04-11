@@ -1,9 +1,8 @@
 package com.github.onsdigital.dp.authorisation.permissions.models;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+/**
+ * Policy.
+ */
 public class Policy {
     String ID;
     public Condition condition;

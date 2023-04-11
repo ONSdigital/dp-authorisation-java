@@ -1,5 +1,8 @@
 package com.github.onsdigital.dp.authorisation.permissions;
 
+/**
+ * Cache.
+ */
 public interface Cache extends Store {
-    public void  close();
+    void  close();
 }
