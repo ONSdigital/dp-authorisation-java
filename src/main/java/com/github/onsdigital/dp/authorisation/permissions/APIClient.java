@@ -9,16 +9,17 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
-import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.function.Supplier;
 
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
+
+
 public class APIClient implements Store {
-    String bundlerEndpoint = "/v1/permissions-bundle";
+    private String bundlerEndpoint = "/v1/permissions-bundle";
     String host;
     private Supplier<CloseableHttpClient> httpClientSupplier;
 
@@ -51,7 +52,7 @@ public class APIClient implements Store {
                 throw new Exception(String.format("%s: %d", Messages.PermissionAPIFailed, statusCode));
 
             }
-            info().log("GetPermissionsBundle: returning requested permissins to caller");
+            info().log("GetPermissionsBundle: returning requested permissions to caller");
             return getResponseEntity(response.getEntity(), Bundle.class);
         }
     }
