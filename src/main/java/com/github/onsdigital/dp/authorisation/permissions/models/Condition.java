@@ -8,9 +8,35 @@ import java.util.List;
  */
 public class Condition {
 
-    public String attribute;
-    public String operator;
-    public List<String> values;
+    private String attribute;
+    private String operator;
+    private List<String> values;
+    
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public void setValues(List<String> values) {
+        this.values = values;
+    }
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public List<String> getValues() {
+        return values;
+    }
+
+
 
     /**
      * Condition.

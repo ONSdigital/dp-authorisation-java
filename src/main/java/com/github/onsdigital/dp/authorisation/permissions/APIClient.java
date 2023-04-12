@@ -26,7 +26,8 @@ public class APIClient implements Store {
     private final String statusCodeTitle = "resp.StatusCode";
     private final String bundlerEndpoint = "/v1/permissions-bundle";
     private final Supplier<CloseableHttpClient> httpClientSupplier;
-    String host;
+    private String host;
+
 
     public APIClient(String host) {
         this.httpClientSupplier = () -> HttpClients.createDefault();
@@ -35,9 +36,7 @@ public class APIClient implements Store {
 
     public APIClient(Supplier<CloseableHttpClient> httpClientSupplier, String host) {
         this.httpClientSupplier = httpClientSupplier;
-        this.host = host;
     }
-
 
     /**
      * getPermissionsBundle gets the permissions bundle data from the permissions API.
