@@ -1,3 +1,13 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
 # Compiled class file
 *.class
 
@@ -25,8 +35,6 @@ hs_err_pid*
 /build
 
 /target
-
-/.settings
 
 ./debug.test
 
