@@ -11,7 +11,7 @@ public class Condition {
     private String attribute;
     private String operator;
     private List<String> values;
-    
+
     public void setAttribute(String attribute) {
         this.attribute = attribute;
     }

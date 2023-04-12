@@ -95,16 +95,16 @@ public class PermissionChecker {
         if (condition == null) {
             return true;
         }
-        if (!attributes.containsKey(condition.attribute)) {
+        if (!attributes.containsKey(condition.getAttribute())) {
             return false;
         }
 
-        String value = attributes.get(condition.attribute);
-        for (String conditionValue : condition.values) {
-            if (condition.operator.equals(Constants.OPERATOR_STRING_EQUALS) && value.equals(conditionValue)) {
+        String value = attributes.get(condition.getAttribute());
+        for (String conditionValue : condition.getValues()) {
+            if (condition.getOperator().equals(Constants.OPERATOR_STRING_EQUALS) && value.equals(conditionValue)) {
                 return true;
             }
-            if (condition.operator.equals(Constants.OPERATOR_STARTS_WITH) && value.startsWith(conditionValue)) {
+            if (condition.getOperator().equals(Constants.OPERATOR_STARTS_WITH) && value.startsWith(conditionValue)) {
                 return true;
             }
         }
