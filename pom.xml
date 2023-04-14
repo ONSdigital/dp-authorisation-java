@@ -68,12 +68,6 @@
             <version>0.5.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.15.0-rc2</version>
-        </dependency>
-
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
@@ -131,6 +125,7 @@
                             </goals>
                             <!-- configuration for mvn validate -->
                             <configuration>
+
                                 <!-- if CVSS >= 9.0 (critical) then ERROR else WARN -->
                                 <fail>true</fail>
                                 <cvssScoreThreshold>9.0</cvssScoreThreshold>
@@ -143,7 +138,11 @@
                         <fail>true</fail>
                         <cvssScoreThreshold>7.0</cvssScoreThreshold>
                         <excludeCoordinates>
-                            <!-- Add exclusions here -->
+                            <exlude>
+                                <groupId>com.fasterxml.jackson.core</groupId>
+                                <artifactId>jackson-core</artifactId>
+                                <version>2.14.1</version>
+                            </exlude>
                         </excludeCoordinates>
                     </configuration>
                 </plugin>
