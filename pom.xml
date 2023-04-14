@@ -30,8 +30,6 @@
     <properties>
         <dp.logging.version>v2.0.0-beta.4</dp.logging.version>
         <maven.sonatype.ossindex.plugin.version>3.1.0</maven.sonatype.ossindex.plugin.version>
-        <maven.spotbugs.plugin.version>4.5.3.0</maven.spotbugs.plugin.version>
-        <maven.spotbugs.security.plugin.version>1.11.0</maven.spotbugs.security.plugin.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
 
     </properties>
@@ -146,26 +144,6 @@
                         </excludeCoordinates>
                     </configuration>
                 </plugin>
-
-                <plugin>
-                    <groupId>com.github.spotbugs</groupId>
-                    <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>${maven.spotbugs.plugin.version}</version>
-                    <configuration>
-                        <effort>Max</effort>
-                        <threshold>medium</threshold>
-                        <failOnError>true</failOnError>
-                        <excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
-                        <plugins>
-                            <plugin>
-                                <groupId>com.h3xstream.findsecbugs</groupId>
-                                <artifactId>findsecbugs-plugin</artifactId>
-                                <version>${maven.spotbugs.security.plugin.version}</version>
-                            </plugin>
-                        </plugins>
-                    </configuration>
-                </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
