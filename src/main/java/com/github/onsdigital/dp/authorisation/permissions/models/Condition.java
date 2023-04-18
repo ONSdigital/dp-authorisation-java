@@ -8,52 +8,49 @@ import java.util.List;
  */
 public class Condition {
 
-  private String attribute;
-  private String operator;
-  private List<String> values;
+    private String attribute;
+    private String operator;
+    private List<String> values;
 
-  /**
-   * Condition.
-   *
-   * @param attribute
-   *
-   * @param operator
-   *
-   * @param value
-   *
-   */
-  public Condition(String attribute, String operator, String value) {
-    this.attribute = attribute;
-    this.operator = operator;
-    values = new ArrayList<String>() {
-      {
-        add(value);
-      }
-    };
-  }
+    /**
+     * Condition.
+     *
+     * @param attribute
+     * @param operator
+     * @param value
+     */
+    public Condition(String attribute, String operator, String value) {
+        this.attribute = attribute;
+        this.operator = operator;
+        values = new ArrayList<String>() {
+            {
+                add(value);
+            }
+        };
+    }
 
-  public String getAttribute() {
-    return attribute;
-  }
+    public String getAttribute() {
+        return attribute;
+    }
 
-  public void setAttribute(String attribute) {
-    this.attribute = attribute;
-  }
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
 
-  public String getOperator() {
-    return operator;
-  }
+    public String getOperator() {
+        return operator;
+    }
 
-  public void setOperator(String operator) {
-    this.operator = operator;
-  }
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 
-  public List<String> getValues() {
-    return values;
-  }
+    public List<String> getValues() {
+        return values;
+    }
 
-  public void setValues(List<String> values) {
-    this.values = values;
-  }
+    public void setValues(List<String> values) {
+        this.values = values;
+    }
 
 }
