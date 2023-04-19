@@ -23,7 +23,6 @@ public class CheckerTest {
 
     Bundle permissionsBundle;
 
-
     @Mock
     private CachingStore cachingStore;
 

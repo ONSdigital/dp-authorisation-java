@@ -2,9 +2,9 @@ package com.github.onsdigital.dp.authorisation.permissions;
 
 
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
-import com.github.onsdigital.dp.authorisation.permissions.models.Condition;
 import com.github.onsdigital.dp.authorisation.permissions.models.EntityIDToPolicies;
 import com.github.onsdigital.dp.authorisation.permissions.models.Policy;
+import com.github.onsdigital.dp.authorisation.permissions.models.Condition;
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
@@ -85,7 +85,7 @@ public class APIClientTest {
 
             client.getPermissionsBundle();
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo("unexpected status returned from the permissions api permissions-bundle endpoint: 400"));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo("java.lang.Exception: unexpected status returned from the permissions api permissions-bundle endpoint: 400"));
         }
     }
 }

@@ -2,6 +2,7 @@ package com.github.onsdigital.dp.authorisation.permissions;
 
 
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
+import com.github.onsdigital.dp.authorisation.exceptions.BundleNotCached;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.Duration;
 import org.junit.Before;
@@ -14,7 +15,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
 public class CachingStoreTest {
-
 
     @Mock
     private Store permissionStore;
@@ -40,9 +40,7 @@ public class CachingStoreTest {
     @Test
     public void Test_update_underlyingStoreErr() throws Exception {
         when(permissionStore.getPermissionsBundle()).thenThrow(new Exception());
-
         Bundle actual = cachingStore.update();
-
         assertThat(actual, equalTo(null));
     }
 

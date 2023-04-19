@@ -111,7 +111,7 @@ public class CachingStore implements Cache {
             info().log("updating cache");
             cachedBundle = permissionsBundle;
             lastUpdateSuccessful = true;
-        } catch (BundleNotCached e) {
+        } catch (Exception e) {
             error().logException(e, "failed to update permissions cache");
             lastUpdateSuccessful = false;
         } finally {

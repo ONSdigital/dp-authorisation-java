@@ -20,7 +20,7 @@ Once the JWT token is parsed into UserDataPayload, it can be passed to the permi
 has access. It's likely at this point that additional data will be needed by the permissions checker to make a decision.
 This is where the `attributes` parameter of the permissions checker is used - for example to set a collection ID:
 
-```java
+``` java 
   String permission = "legacy.read";
   HashMap<String, String> attributes = new HashMap<String, String>() {{
         put("collection_id", "collection768");
