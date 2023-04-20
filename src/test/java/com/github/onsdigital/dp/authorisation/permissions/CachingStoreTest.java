@@ -59,7 +59,7 @@ public class CachingStoreTest {
         try {
             Bundle actual = cachingStore.getPermissionsBundle();
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo("permissions bundle not found in the cache"));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached()));
         }
     }
 
@@ -85,7 +85,7 @@ public class CachingStoreTest {
             Thread.sleep(3);
             cachingStore.getPermissionsBundle();
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo("permissions bundle not found in the cache"));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached()));
         }
     }
 
@@ -98,7 +98,7 @@ public class CachingStoreTest {
         try {
             cachingStore.checkCacheExpiry(Duration.millis(1));
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo("permissions bundle not found in the cache"));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached()));
         }
     }
 
