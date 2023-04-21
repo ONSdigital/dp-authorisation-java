@@ -11,11 +11,15 @@ public class Policy {
         this.ID = id;
     }
     public Policy(String id, Condition condition) {
-        ID = id;
+        this.ID = id;
         this.condition = condition;
     }
     public Condition getCondition() {
         return condition;
+    }
+
+    public String getID()  {
+        return ID;
     }
 
 }
