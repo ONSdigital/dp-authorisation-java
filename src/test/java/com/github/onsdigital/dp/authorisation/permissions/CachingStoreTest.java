@@ -10,8 +10,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 public class CachingStoreTest {
@@ -55,11 +57,11 @@ public class CachingStoreTest {
     }
 
     @Test
-    public void Test_getPermissionsBundle_NotCached() throws Exception {
+    public void Test_getPermissionsBundle_NotCached(){
         try {
             Bundle actual = cachingStore.getPermissionsBundle();
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached()));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached().getMessage()));
         }
     }
 
@@ -80,12 +82,11 @@ public class CachingStoreTest {
         when(permissionStore.getPermissionsBundle()).thenReturn(expected);
 
         try {
-            cachingStore.update();
             cachingStore.checkCacheExpiry(Duration.millis(1));
             Thread.sleep(3);
             cachingStore.getPermissionsBundle();
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached()));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached().getMessage()));
         }
     }
 
@@ -98,7 +99,7 @@ public class CachingStoreTest {
         try {
             cachingStore.checkCacheExpiry(Duration.millis(1));
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached()));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo("permissions bundle not found in the cache"));
         }
     }
 
