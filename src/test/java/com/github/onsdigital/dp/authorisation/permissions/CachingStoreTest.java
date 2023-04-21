@@ -10,10 +10,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Matchers.eq;
+
 import static org.mockito.Mockito.when;
 
 public class CachingStoreTest {
@@ -99,7 +98,7 @@ public class CachingStoreTest {
         try {
             cachingStore.checkCacheExpiry(Duration.millis(1));
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo("permissions bundle not found in the cache"));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached().getMessage()));
         }
     }
 
