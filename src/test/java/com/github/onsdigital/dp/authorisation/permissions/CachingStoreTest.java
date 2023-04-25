@@ -41,8 +41,14 @@ public class CachingStoreTest {
     @Test
     public void Test_update_underlyingStoreErr() throws Exception {
         when(permissionStore.getPermissionsBundle()).thenThrow(new Exception());
-        Bundle actual = cachingStore.update();
-        assertThat(actual, equalTo(null));
+        try {
+            Bundle actual = cachingStore.update();
+            assertThat(actual, equalTo(null));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        assertThat(cachingStore.getLastUpdateSuccessful(),equalTo(false));
     }
 
     @Test
