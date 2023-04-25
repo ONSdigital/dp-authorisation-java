@@ -21,25 +21,7 @@ public class CachingStore implements Cache {
     private final ScheduledExecutorService scheduledExecutorService;
     private Store underlyingStore;
     private Bundle cachedBundle;
-
-    public Boolean getLastUpdateSuccessful() {
-        return lastUpdateSuccessful;
-    }
-
-    public void setLastUpdateSuccessful(Boolean lastUpdateSuccessful) {
-        this.lastUpdateSuccessful = lastUpdateSuccessful;
-    }
-
     private Boolean lastUpdateSuccessful;
-
-    public DateTime getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(DateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     private DateTime lastUpdated;
 
     CachingStore() {
@@ -52,6 +34,20 @@ public class CachingStore implements Cache {
         this.underlyingStore = underlyingStore;
     }
 
+    public Boolean getLastUpdateSuccessful() {
+        return lastUpdateSuccessful;
+    }
+    public DateTime getLastUpdated() {
+        return lastUpdated;
+    }
+    public void setLastUpdateSuccessful(Boolean lastUpdateSuccessful) {
+        this.lastUpdateSuccessful = lastUpdateSuccessful;
+    }
+
+    public void setLastUpdated(DateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+    
     /**
      * getPermissionsBundle returns the cached permission data, or an error if it's not cached.
      *
