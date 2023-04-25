@@ -14,8 +14,8 @@
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf"/>
     </module>
-
     <module name="TreeWalker">
+
         <!-- Javadoc -->
         <module name="MissingJavadocType">
             <property name="scope" value="public"/>
@@ -41,20 +41,16 @@
             <property name="checkEmptyJavadoc" value="true"/>
         </module>
         <module name="RegexpSinglelineJava">
-            <property name="format" value="^\s*\*\s*@author"/>
-            <property name="message" value="Javadoc has illegal ''author'' tag."/>
+            <property name="format" value="^\s*\*\s*@author" />
+            <property name="message" value="Javadoc has illegal ''author'' tag." />
         </module>
 
         <!-- Naming Conventions -->
         <module name="AbstractClassName"/>
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
-        <module name="LocalVariableName">
-        </module>
-        <module name="MemberName">
-            <property name="applyToPublic" value="false"/>
-            <property name="applyToPrivate" value="false"/>
-        </module>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
         <module name="MethodName"/>
         <module name="PackageName">
             <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
@@ -70,8 +66,7 @@
         <module name="UnusedImports"/>
         <!-- Intellij default import order -->
         <module name="CustomImportOrder">
-            <property name="customImportOrderRules"
-                      value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
+            <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
             <property name="sortImportsInGroupAlphabetically" value="true"/>
             <property name="standardPackageRegExp" value="^(java|javax)\."/>
             <property name="separateLineBetweenGroups" value="true"/>
@@ -141,7 +136,9 @@
         </module>
         <module name="IllegalThrows"/>
         <module name="PackageDeclaration"/>
-        <!--        <module name="IllegalType"/>-->
+        <module name="IllegalType">
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
         <module name="DeclarationOrder"/>
         <module name="ExplicitInitialization"/>
         <module name="DefaultComesLast"/>

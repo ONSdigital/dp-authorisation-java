@@ -87,8 +87,7 @@ public class CachingStore implements Cache {
     void checkCacheExpiry(Duration maxCacheTime) {
         mutex.lock();
         try {
-            if (lastUpdated != null
-                    && (lastUpdated.getMillis()
+            if (lastUpdated != null  && (lastUpdated.getMillis()
                     - System.currentTimeMillis()) > maxCacheTime.getMillis()) {
                 info().log("clearing permissions cache data as it has gone beyond the max cache time");
                 cachedBundle = null;

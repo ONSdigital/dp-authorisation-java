@@ -5,13 +5,15 @@ package com.github.onsdigital.dp.authorisation.permissions.models;
  */
 public class Policy {
     private Condition condition;
-    private String ID;
+    private String identity;
+
+
 
     public Policy(String id) {
-        this.ID = id;
+        this.identity = id;
     }
     public Policy(String id, Condition condition) {
-        this.ID = id;
+        this.identity = id;
         this.condition = condition;
     }
     public Condition getCondition() {
@@ -19,7 +21,7 @@ public class Policy {
     }
 
     public String getID()  {
-        return ID;
+        return identity;
     }
 
 }

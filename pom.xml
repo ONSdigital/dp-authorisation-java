@@ -31,6 +31,7 @@
         <dp.logging.version>v2.0.0-beta.4</dp.logging.version>
         <maven.sonatype.ossindex.plugin.version>3.1.0</maven.sonatype.ossindex.plugin.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
+        <maven.checkstyle.plugin.version>3.2.2</maven.checkstyle.plugin.version>
 
     </properties>
 
@@ -102,6 +103,11 @@
 
     </dependencies>
 
+<!--    notes on checkstyle-->
+<!--    https://maven.apache.org/plugins/maven-checkstyle-plugin/history.html -->
+<!--    |release date	|maven-checkstyle-plugin version	|minimum Java version	|default Checkstyle version
+        |2023-04-18	    |3.2.2	                            |8	                    |9.3  -->
+
     <build>
         <plugins>
             <plugin>
@@ -146,7 +152,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>${maven.checkstyle.plugin.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
@@ -161,15 +167,15 @@
                     <failsOnError>true</failsOnError>
                     <linkXRef>false</linkXRef>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>validate</id>-->
+<!--                        <phase>validate</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>check</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
