@@ -141,11 +141,6 @@
                     <fail>true</fail>
                     <cvssScoreThreshold>7.0</cvssScoreThreshold>
                     <excludeCoordinates>
-                        <exlude>
-                            <groupId>com.fasterxml.jackson.core</groupId>
-                            <artifactId>jackson-core</artifactId>
-                            <version>2.14.1</version>
-                        </exlude>
                     </excludeCoordinates>
                 </configuration>
             </plugin>
@@ -167,15 +162,7 @@
                     <failsOnError>true</failsOnError>
                     <linkXRef>false</linkXRef>
                 </configuration>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>validate</id>-->
-<!--                        <phase>validate</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>check</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
