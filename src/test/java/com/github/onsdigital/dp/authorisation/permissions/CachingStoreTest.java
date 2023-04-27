@@ -32,22 +32,17 @@ public class CachingStoreTest {
     public void Test_update() throws Exception {
         Bundle expected = new Bundle();
         when(permissionStore.getPermissionsBundle()).thenReturn(expected);
-
         Bundle actual = cachingStore.update();
-
         assertThat(actual, equalTo(expected));
+        assertThat(cachingStore.getLastUpdateSuccessful(),equalTo(true));
+
     }
 
     @Test
     public void Test_update_underlyingStoreErr() throws Exception {
         when(permissionStore.getPermissionsBundle()).thenThrow(new Exception());
-        try {
-            Bundle actual = cachingStore.update();
-            assertThat(actual, equalTo(null));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        Bundle actual = cachingStore.update();
+        assertThat(actual, equalTo(null));
         assertThat(cachingStore.getLastUpdateSuccessful(),equalTo(false));
     }
 

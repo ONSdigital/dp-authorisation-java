@@ -44,8 +44,8 @@ public class CachingStore implements Cache {
         this.lastUpdateSuccessful = lastUpdateSuccessful;
     }
 
-    public void setLastUpdated(DateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setLastUpdated(DateTime update) {
+        this.lastUpdated = update;
     }
     
     /**
@@ -91,7 +91,7 @@ public class CachingStore implements Cache {
                     - System.currentTimeMillis()) > maxCacheTime.getMillis()) {
                 info().log("clearing permissions cache data as it has gone beyond the max cache time");
                 cachedBundle = null;
-                lastUpdated = new DateTime();
+                setLastUpdated(new DateTime());
             }
         } finally {
             mutex.unlock();
