@@ -66,6 +66,10 @@ public class CachingStore implements Cache {
         }
     }
 
+    public void setPermissionsBundle(Bundle permissionsBundle) {
+        this.cachedBundle = permissionsBundle;
+    }
+
     /**
      * startExpiryChecker starts a goroutine to continually check for expired cache data.
      *
@@ -79,25 +83,6 @@ public class CachingStore implements Cache {
         );
     }
 
-//    /**
-//     * checkCacheExpiry clears the cache data it it's gone beyond it's expiry time.
-//     *
-//     * @param maxCacheTime
-//     */
-//    void checkCacheExpiry(Duration maxCacheTime) {
-//        mutex.lock();
-//        try {
-//            if (lastUpdated != null  && (lastUpdated.getMillis()
-//                    - System.currentTimeMillis()) > maxCacheTime.getMillis()) {
-//                info().log("clearing permissions cache data as it has gone beyond the max cache time");
-//                cachedBundle = null;
-//                setLastUpdated(new DateTime());
-//            }
-//        } finally {
-//            mutex.unlock();
-//        }
-//    }
-
     /**
      * checkCacheExpiry clears the cache data it it's gone beyond it's expiry time.
      *
@@ -107,7 +92,7 @@ public class CachingStore implements Cache {
         mutex.lock();
         try {
             if (lastUpdated != null) {
-                if ((lastUpdated.getMillis() - System.currentTimeMillis()) > maxCacheTime.getMillis()) {
+                if ((System.currentTimeMillis() - lastUpdated.getMillis()) > maxCacheTime.getMillis()) {
                     info().log("clearing permissions cache data as it has gone beyond the max cache time");
                     cachedBundle = null;
                     setLastUpdated(new DateTime());

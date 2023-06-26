@@ -4,7 +4,9 @@ package com.github.onsdigital.dp.authorisation.permissions;
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import com.github.onsdigital.dp.authorisation.exceptions.BundleNotCached;
 import org.hamcrest.CoreMatchers;
+import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -13,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 
 public class CachingStoreTest {
@@ -21,6 +24,8 @@ public class CachingStoreTest {
     private Store permissionStore;
 
     private CachingStore cachingStore;
+
+    private static String expectedBundleNotCachedMessage = "permissions bundle not found in the cache";
 
     @Before
     public void setUp() throws Exception {
@@ -77,19 +82,56 @@ public class CachingStoreTest {
     }
 
     @Test
-    public void Test_checkCacheExpiry_Expired() throws Exception {
-        Bundle expected = new Bundle();
-        when(permissionStore.getPermissionsBundle()).thenReturn(expected);
+    public void Test_checkCacheExpiry_testCacheIsUpdated() throws Exception {
+        // Given that the cache was last updated 2 minutes ago:
+        long timeLastUpdated = (new DateTime().getMillis() - Duration.standardMinutes(2).getMillis());
+        cachingStore.setLastUpdated(new DateTime(timeLastUpdated));
 
-        try {
-            cachingStore.checkCacheExpiry(Duration.millis(1));
-            Thread.sleep(3);
-            cachingStore.getPermissionsBundle();
-        } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached().getMessage()));
-        }
+        // And a permissions bundle is currently set
+        cachingStore.setPermissionsBundle(new Bundle());
+
+        // When the maximum cache expiry time is 1 minute and checkCacheExpiry is called
+        cachingStore.checkCacheExpiry(Duration.standardMinutes(1));
+
+        // Then the cache is updated by setting the permissions bundle to null. Therefore,
+        // when getPermissionsBundle is called, a BundleNotCached exception is thrown.
+        Exception exception = assertThrows(Exception.class,
+                () -> cachingStore.getPermissionsBundle());
+        Assert.assertTrue(exception.getMessage().contains(expectedBundleNotCachedMessage));
     }
 
+    @Test
+    public void Test_checkCacheExpiry_testCacheIsNotUpdatedIfLastUpdatedNull() throws Exception {
+        // Given that the cache has never been updated before
+        cachingStore.setLastUpdated(null);
+
+        // And a permissions bundle is currently set
+        cachingStore.setPermissionsBundle(new Bundle());
+
+        // When the maximum cache expiry time is 1 minute and checkCacheExpiry is called
+        cachingStore.checkCacheExpiry(Duration.standardMinutes(1));
+
+        // Then the cache is not updated and a permissions bundle still exists
+        Assert.assertNotNull(cachingStore.getPermissionsBundle());
+
+        // And lastUpdated gets initialised
+        Assert.assertNotNull(cachingStore.getLastUpdated());
+    }
+
+    @Test
+    public void Test_checkCacheExpiry_testCacheIsNotUpdatedIfLastUpdatedJustBeenSet() throws Exception {
+        // Given that the cache has only just been updated (less than 2 minutes ago)
+        cachingStore.setLastUpdated(new DateTime());
+
+        // And a permissions bundle is currently set
+        cachingStore.setPermissionsBundle(new Bundle());
+
+        // When the maximum cache expiry time is 2 minutes and checkCacheExpiry is called
+        cachingStore.checkCacheExpiry(Duration.standardMinutes(1));
+
+        // Then the cache is not updated and a permissions bundle still exists
+        Assert.assertNotNull(cachingStore.getPermissionsBundle());
+    }
 
     @Test
     public void Test_checkCacheExpiry_NoCachedData() throws Exception {
@@ -99,7 +141,7 @@ public class CachingStoreTest {
         try {
             cachingStore.checkCacheExpiry(Duration.millis(1));
         } catch (Exception ex) {
-            assertThat(ex.getMessage(), CoreMatchers.equalTo(new BundleNotCached().getMessage()));
+            assertThat(ex.getMessage(), CoreMatchers.equalTo(expectedBundleNotCachedMessage));
         }
     }
 
