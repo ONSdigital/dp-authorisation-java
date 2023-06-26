@@ -66,6 +66,11 @@ public class CachingStore implements Cache {
         }
     }
 
+    /**
+     * setPermissionsBundle sets the value of cachedBundle
+     *
+     * @param permissionsBundle - the value to set the cachedBundle to
+     */
     public void setPermissionsBundle(Bundle permissionsBundle) {
         this.cachedBundle = permissionsBundle;
     }
@@ -84,7 +89,7 @@ public class CachingStore implements Cache {
     }
 
     /**
-     * checkCacheExpiry clears the cache data it it's gone beyond it's expiry time.
+     * checkCacheExpiry clears the cache data if it's gone beyond it's expiry time.
      *
      * @param maxCacheTime
      */

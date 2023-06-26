@@ -6,7 +6,6 @@ import com.github.onsdigital.dp.authorisation.exceptions.BundleNotCached;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -15,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 public class CachingStoreTest {
@@ -97,7 +96,7 @@ public class CachingStoreTest {
         // when getPermissionsBundle is called, a BundleNotCached exception is thrown.
         Exception exception = assertThrows(Exception.class,
                 () -> cachingStore.getPermissionsBundle());
-        Assert.assertTrue(exception.getMessage().contains(expectedBundleNotCachedMessage));
+        assertTrue(exception.getMessage().contains(expectedBundleNotCachedMessage));
     }
 
     @Test
@@ -112,10 +111,10 @@ public class CachingStoreTest {
         cachingStore.checkCacheExpiry(Duration.standardMinutes(1));
 
         // Then the cache is not updated and a permissions bundle still exists
-        Assert.assertNotNull(cachingStore.getPermissionsBundle());
+        assertNotNull(cachingStore.getPermissionsBundle());
 
         // And lastUpdated gets initialised
-        Assert.assertNotNull(cachingStore.getLastUpdated());
+        assertNotNull(cachingStore.getLastUpdated());
     }
 
     @Test
@@ -130,7 +129,7 @@ public class CachingStoreTest {
         cachingStore.checkCacheExpiry(Duration.standardMinutes(1));
 
         // Then the cache is not updated and a permissions bundle still exists
-        Assert.assertNotNull(cachingStore.getPermissionsBundle());
+        assertNotNull(cachingStore.getPermissionsBundle());
     }
 
     @Test
