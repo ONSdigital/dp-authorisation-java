@@ -67,7 +67,7 @@ public class CachingStore implements Cache {
     }
 
     /**
-     * setPermissionsBundle sets the value of cachedBundle
+     * setPermissionsBundle sets the value of Bundle cachedBundle.
      *
      * @param permissionsBundle - the value to set the cachedBundle to
      */

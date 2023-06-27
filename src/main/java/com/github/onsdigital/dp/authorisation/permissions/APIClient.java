@@ -1,6 +1,5 @@
 package com.github.onsdigital.dp.authorisation.permissions;
 
-import com.github.onsdigital.dp.authorisation.exceptions.BundleNotCached;
 import com.github.onsdigital.dp.authorisation.exceptions.Messages;
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import com.google.gson.Gson;
@@ -45,7 +44,7 @@ public class APIClient implements Store {
      * @return getResponseEntity
      * @throws Exception
      */
-    public Bundle getPermissionsBundle() throws BundleNotCached {
+    public Bundle getPermissionsBundle() throws Exception {
         String uri = host + bundlerEndpoint;
         info().data("uri", uri).log("getPermissionsBundle: starting permissions bundle request");
 
@@ -68,8 +67,6 @@ public class APIClient implements Store {
         } catch (ClientProtocolException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
