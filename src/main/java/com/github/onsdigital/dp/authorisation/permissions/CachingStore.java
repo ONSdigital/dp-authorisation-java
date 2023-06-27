@@ -89,7 +89,7 @@ public class CachingStore implements Cache {
     }
 
     /**
-     * checkCacheExpiry clears the cache data if it's gone beyond it's expiry time.
+     * checkCacheExpiry clears the cache data if the current time is past the expiry time.
      *
      * @param maxCacheTime
      */
