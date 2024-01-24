@@ -5,6 +5,7 @@ import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import com.github.onsdigital.dp.authorisation.permissions.models.Condition;
 import com.github.onsdigital.dp.authorisation.permissions.models.EntityIDToPolicies;
 import com.github.onsdigital.dp.authorisation.permissions.models.Policy;
+import org.joda.time.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +19,32 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.warn;
  */
 public class PermissionChecker {
     private Cache cache;
+
     public PermissionChecker(Cache cachingStore) {
         setCache(cachingStore);
     }
+
+    /**
+    * PermissionChecker.
+    *
+    * @param permissionsAPIHost  - permissionsAPIHost
+    * @param cacheUpdateInterval - cacheUpdateInterval
+    * @param expiryCheckInterval - expiryCheckInterval
+    * @param maxCacheTime        - maxCacheTime
+    */
+    public PermissionChecker(String permissionsAPIHost, Duration cacheUpdateInterval,
+        Duration expiryCheckInterval, Duration maxCacheTime) {
+        CachingStore cachingStore = new CachingStore(new APIClient(permissionsAPIHost));
+        cachingStore.startCacheUpdater(cacheUpdateInterval);
+        cachingStore.startExpiryChecker(expiryCheckInterval, maxCacheTime);
+        setCache(cachingStore);
+    }
+
     public void setCache(Cache cache) {
         this.cache = cache;
     }
 
 
-//    /**
-//     * PermissionChecker.
-//     *
-//     * @param permissionsAPIHost  - permissionsAPIHost
-//     * @param cacheUpdateInterval - cacheUpdateInterval
-//     * @param expiryCheckInterval - expiryCheckInterval
-//     * @param maxCacheTime        - maxCacheTime
-//     */
-//    public PermissionChecker(String permissionsAPIHost, Duration cacheUpdateInterval,
-//                             Duration expiryCheckInterval, Duration maxCacheTime) {
-//        CachingStore cachingStore = new CachingStore(new APIClient(permissionsAPIHost));
-//        cachingStore.startCacheUpdater(cacheUpdateInterval);
-//        cachingStore.startExpiryChecker(expiryCheckInterval, maxCacheTime);
-//        setCache(cachingStore);
-//    }
 
     public void close() {
         cache.close();
