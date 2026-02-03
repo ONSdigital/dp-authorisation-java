@@ -107,7 +107,7 @@ public class PermissionChecker {
     }
 
     boolean conditionIsMet(Condition condition, Map<String, String> attributes) {
-        if (condition == null) {
+        if (condition == null || isEmpty(condition.getAttribute())) {
             return true;
         }
         if (!attributes.containsKey(condition.getAttribute())) {

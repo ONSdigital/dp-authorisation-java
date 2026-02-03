@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
-public class CheckerTest {
+public class PermissionCheckerTest {
 
     Bundle permissionsBundle;
 
@@ -41,6 +41,10 @@ public class CheckerTest {
 
         permissionsBundle.put("some_service.write", new EntityIDToPolicies("groups/publisher", new Policy("policy7",
                 new Condition("path", Constants.OPERATOR_STARTS_WITH, "/files/dir/b")
+        )));
+
+        permissionsBundle.put("legacy:edit", new EntityIDToPolicies("groups/editor", new Policy("policy4",
+                new Condition("", Constants.OPERATOR_STRING_EQUALS, "")
         )));
 
         when(cachingStore.getPermissionsBundle()).
@@ -163,6 +167,21 @@ public class CheckerTest {
 
         Boolean hasPermission = checker.hasPermission(
                 new UserDataPayload("userId", "userEmail", Collections.singletonList("viewer")), "legacy.read", attributes
+        );
+
+        assertThat(hasPermission, equalTo(true));
+
+    }
+
+    @Test
+    public void testHasPermission_conditionAttributeEmptyTrue() throws Exception {
+
+        HashMap<String, String> attributes = new HashMap<String, String>() {{
+            put("collection_id", "collection768");
+        }};
+
+        Boolean hasPermission = checker.hasPermission(
+                new UserDataPayload("userId", "userEmail", Collections.singletonList("editor")), "legacy:edit", attributes
         );
 
         assertThat(hasPermission, equalTo(true));
