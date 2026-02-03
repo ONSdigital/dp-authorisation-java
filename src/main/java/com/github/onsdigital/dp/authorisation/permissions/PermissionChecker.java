@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.warn;
-
 
 /**
  * PermissionChecker.
@@ -43,8 +43,6 @@ public class PermissionChecker {
     public void setCache(Cache cache) {
         this.cache = cache;
     }
-
-
 
     public void close() {
         cache.close();
@@ -96,7 +94,7 @@ public class PermissionChecker {
     }
 
     Boolean aPolicyApplies(List<Policy> policies, Map<String, String> attributes) {
-        if (policies == null || policies.size() == 0) {
+        if (policies == null || policies.isEmpty()) {
             return false;
         }
         for (Policy policy : policies) {
@@ -133,11 +131,11 @@ public class PermissionChecker {
 
     List<String> mapEntityDataToEntities(UserDataPayload userData) {
         List<String> entities = new ArrayList<String>();
-        if (userData.getEmail().length() > 0) {
+        if (!isEmpty(userData.getEmail())) {
             entities.add("users/" + userData.getEmail());
         }
         for (String group : userData.getGroups()) {
-            if (group.length() > 0) {
+            if (!isEmpty(group)) {
                 entities.add("groups/" + group);
             }
         }
