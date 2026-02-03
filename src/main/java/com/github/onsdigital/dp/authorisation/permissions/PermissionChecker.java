@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.warn;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * PermissionChecker.
