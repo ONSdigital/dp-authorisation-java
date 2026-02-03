@@ -130,7 +130,7 @@ public class PermissionChecker {
     }
 
     List<String> mapEntityDataToEntities(UserDataPayload userData) {
-        List<String> entities = new ArrayList<String>();
+        List<String> entities = new ArrayList<>();
         if (!isEmpty(userData.getEmail())) {
             entities.add("users/" + userData.getEmail());
         }
