@@ -93,7 +93,7 @@ public class PermissionChecker {
         return false;
     }
 
-    Boolean aPolicyApplies(List<Policy> policies, Map<String, String> attributes) {
+    boolean aPolicyApplies(List<Policy> policies, Map<String, String> attributes) {
         if (policies == null || policies.isEmpty()) {
             return false;
         }
@@ -106,7 +106,7 @@ public class PermissionChecker {
         return false;
     }
 
-    Boolean conditionIsMet(Condition condition, Map<String, String> attributes) {
+    boolean conditionIsMet(Condition condition, Map<String, String> attributes) {
         if (condition == null) {
             return true;
         }
