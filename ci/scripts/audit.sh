@@ -23,6 +23,6 @@ EOF
 # Secure the file
 chmod 600 ~/.m2/settings.xml
 
-pushd $cwd/dp-authorisation-java
+pushd dp-authorisation-java
   make audit
 popd
