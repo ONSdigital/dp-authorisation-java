@@ -3,12 +3,12 @@ package com.github.onsdigital.dp.authorisation.permissions;
 import com.github.onsdigital.dp.authorisation.exceptions.Messages;
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import com.google.gson.Gson;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +52,7 @@ public class APIClient implements Store {
         try (CloseableHttpClient httpClient = httpClientSupplier.get();
              CloseableHttpResponse response = httpClient.execute(request)) {
 
-            int statusCode = response.getStatusLine().getStatusCode();
+            int statusCode = response.getCode();
             info().data(statusCodeTitle,
                     statusCode).log("GetPermissionsBundle: request successfully executed");
 

@@ -6,10 +6,9 @@ import com.github.onsdigital.dp.authorisation.permissions.models.EntityIDToPolic
 import com.github.onsdigital.dp.authorisation.permissions.models.Policy;
 import com.github.onsdigital.dp.authorisation.permissions.models.Condition;
 import com.google.gson.Gson;
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,9 +59,7 @@ public class APIClientTest {
 
         try (InputStream responseBody = new ByteArrayInputStream(expectedJson.getBytes())) {
             when(httpClient.execute(Matchers.any())).thenReturn(response);
-            StatusLine statusLine = mock(StatusLine.class);
-            when(response.getStatusLine()).thenReturn(statusLine);
-            when(statusLine.getStatusCode()).thenReturn(200);
+            when(response.getCode()).thenReturn(200);
             HttpEntity entity = mock(HttpEntity.class);
             when(response.getEntity()).thenReturn(entity);
             when(entity.getContent()).thenReturn(responseBody);
@@ -77,11 +74,9 @@ public class APIClientTest {
     public void testGetContentHash_non200Status() {
         try {
             CloseableHttpResponse response = mock(CloseableHttpResponse.class);
-            StatusLine statusLine = mock(StatusLine.class);
 
             when(httpClient.execute(Matchers.any())).thenReturn(response);
-            when(response.getStatusLine()).thenReturn(statusLine);
-            when(statusLine.getStatusCode()).thenReturn(400);
+            when(response.getCode()).thenReturn(400);
 
             client.getPermissionsBundle();
         } catch (Exception ex) {
