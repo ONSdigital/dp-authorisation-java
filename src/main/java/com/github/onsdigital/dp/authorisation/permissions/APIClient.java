@@ -3,12 +3,12 @@ package com.github.onsdigital.dp.authorisation.permissions;
 import com.github.onsdigital.dp.authorisation.exceptions.Messages;
 import com.github.onsdigital.dp.authorisation.permissions.models.Bundle;
 import com.google.gson.Gson;
-import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.client5.http.ClientProtocolException;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
 
 import java.io.IOException;
 import java.io.InputStream;
