@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.warn;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
@@ -34,6 +35,11 @@ public class PermissionChecker {
      */
     public PermissionChecker(String permissionsAPIHost, Duration cacheUpdateInterval,
             Duration expiryCheckInterval, Duration maxCacheTime) {
+        info()
+            .data("expiryCheckInterval", expiryCheckInterval.getStandardSeconds())
+            .data("cacheUpdateInterval", cacheUpdateInterval.getStandardSeconds())
+            .data("maxCacheTime", maxCacheTime.getStandardSeconds())
+            .log("starting PermissionChecker with provided configuration");
         CachingStore cachingStore = new CachingStore(new APIClient(permissionsAPIHost));
         cachingStore.startCacheUpdater(cacheUpdateInterval);
         cachingStore.startExpiryChecker(expiryCheckInterval, maxCacheTime);

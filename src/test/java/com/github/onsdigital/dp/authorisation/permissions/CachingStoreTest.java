@@ -15,6 +15,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class CachingStoreTest {
@@ -149,9 +151,12 @@ public class CachingStoreTest {
         Bundle expected = new Bundle();
         when(permissionStore.getPermissionsBundle()).thenReturn(expected);
 
-        cachingStore.startCacheUpdater(Duration.standardSeconds(1));
-        cachingStore.startExpiryChecker(Duration.standardSeconds(2), Duration.standardMinutes(1));
+        cachingStore.startCacheUpdater(Duration.millis(50));
 
-        assertThat(cachingStore.getPermissionsBundle(), equalTo(expected));
+        try {
+            verify(permissionStore, timeout(500).atLeast(2)).getPermissionsBundle();
+        } finally {
+            cachingStore.close();
+        }
     }
 }

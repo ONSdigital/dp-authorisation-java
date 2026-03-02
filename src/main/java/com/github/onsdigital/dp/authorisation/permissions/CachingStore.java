@@ -76,14 +76,16 @@ public class CachingStore implements Cache {
     }
 
     /**
-     * startExpiryChecker starts a goroutine to continually check for expired cache data.
+     * startExpiryChecker starts a ScheduledFuture to continually check if the cache has expired.
      *
      * @param checkInterval - how often to check for expired cache data.
      * @param maxCacheTime  - how long to cache permissions data before it's expired.
      */
     public void startExpiryChecker(Duration checkInterval, Duration maxCacheTime) {
-        scheduledExecutorService.schedule(
+        // Don't run the expiry check immediately, to give the cache a chance to populate first. Run at the specified interval thereafter.
+        scheduledExecutorService.scheduleWithFixedDelay(
                 () -> checkCacheExpiry(maxCacheTime),
+                checkInterval.getMillis(),
                 checkInterval.getMillis(), TimeUnit.MILLISECONDS
         );
     }
@@ -111,15 +113,15 @@ public class CachingStore implements Cache {
     }
 
     /**
-     * startCacheUpdater starts a go routine to continually update cache data at time intervals.
+     * startCacheUpdater starts ScheduledFuture to continually update cache data at time intervals.
      *
      * @param updateInterval - how often to update the cache data.
      */
     public void startCacheUpdater(Duration updateInterval) {
-        update();
-        scheduledExecutorService.schedule(
+        // Update immediately, then at the specified interval thereafter.
+        scheduledExecutorService.scheduleWithFixedDelay(
                 () -> update(),
-                updateInterval.getMillis(), TimeUnit.MILLISECONDS
+                0, updateInterval.getMillis(), TimeUnit.MILLISECONDS
         );
     }
 
@@ -132,8 +134,8 @@ public class CachingStore implements Cache {
     public Bundle update() {
         mutex.lock();
         try {
+            info().log("getting latest permissions bundle");
             Bundle permissionsBundle = underlyingStore.getPermissionsBundle();
-            info().log("updating cache");
             cachedBundle = permissionsBundle;
             setLastUpdateSuccessful(true);
         } catch (Exception e) {
